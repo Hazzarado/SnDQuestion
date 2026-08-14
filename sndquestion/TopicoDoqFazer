@@ -1,0 +1,75 @@
+Claro. O projeto pode ser dividido assim:
+
+### 1. Estrutura do site
+
+* Criar o projeto com **Next.js + TypeScript + Tailwind CSS**.
+* Criar:
+
+  * Página inicial
+  * Barra de busca
+  * Categorias
+  * Lista de perguntas
+  * Página de resposta
+  * Botão "Perguntar à IA"
+
+### 2. Banco de dados
+
+* Usar **Supabase/PostgreSQL**.
+* Criar tabelas:
+
+  * `categories`
+  * `faqs`
+* Guardar perguntas, respostas, categorias e status.
+
+### 3. Sistema de FAQ
+
+* Mostrar perguntas por categoria.
+* Implementar busca.
+* Permitir abrir/fechar respostas.
+* Criar páginas individuais para cada FAQ.
+
+### 4. Botpress
+
+* Criar o agente de IA.
+* Criar uma **Knowledge Base**.
+* Adicionar os conteúdos do FAQ/documentos.
+* Configurar as regras da IA:
+
+  * Não inventar respostas.
+  * Usar a base de conhecimento.
+  * Responder em português.
+  * Encaminhar para suporte quando necessário.
+
+### 5. Integração
+
+* Adicionar o **Botpress Webchat** ao site.
+* Criar o botão:
+  **"🤖 Não encontrou? Pergunte à IA"**
+* Ao clicar, abrir o chat do Botpress.
+
+### 6. Área administrativa
+
+Depois do MVP:
+
+* Criar `/admin`.
+* Cadastrar/editar/excluir FAQs.
+* Gerenciar categorias.
+* Gerenciar documentos.
+
+### 7. Analytics
+
+* Registrar perguntas feitas à IA.
+* Identificar perguntas sem resposta.
+* Descobrir os assuntos mais procurados.
+
+### 8. Deploy
+
+* **Frontend:** Vercel
+* **Banco:** Supabase
+* **IA:** Botpress
+
+### Ordem de desenvolvimento
+
+**Next.js → Layout → FAQ → Busca → Supabase → Botpress → Integração → Admin → Analytics → Deploy**
+
+Essa é a sequência que eu seguiria para evitar complicar o projeto logo no começo.
