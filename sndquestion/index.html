@@ -1,32 +1,279 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnDQuestion | Assistente Inteligente</title>
     <link rel="stylesheet" href="style.css">
-    <title>SnDQuestion</title>
+    <!-- Ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-    <header class="inicial">
-            <h1>Olá! Me diga qual seria a sua dúvida!</h1>
-            <p>SnDQuestion</p>
-    </header>
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <span class="logo-text">SnDQuestion</span>
+                </div>
+            </div>
 
-    <main class="conteudo">
+            <div class="sidebar-actions">
+                <button class="btn-new-chat" onclick="navigateTo('page-chat')">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="sidebar-text">Nova conversa</span>
+                </button>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Pesquisar..." onclick="navigateTo('page-search')" class="sidebar-text">
+                </div>
+            </div>
 
-    <section class="perguntas">
+            <div class="conversations-list">
+                <div class="date-group">
+                    <span class="date-label sidebar-text">Hoje</span>
+                    <div class="chat-item active" onclick="selectChat(this, 'Planejamento de Viagem')">
+                        <i class="fa-regular fa-message"></i>
+                        <div class="chat-info sidebar-text">
+                            <p class="chat-title">Planejamento de Viagem</p>
+                            <p class="chat-preview">Quais os melhores templos...</p>
+                        </div>
+                    </div>
+                    <div class="chat-item" onclick="selectChat(this, 'Refatoração React')">
+                        <i class="fa-regular fa-message"></i>
+                        <div class="chat-info sidebar-text">
+                            <p class="chat-title">Refatoração React</p>
+                            <p class="chat-preview">Como otimizar o useEffect...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="date-group">
+                    <span class="date-label sidebar-text">Ontem</span>
+                    <div class="chat-item" onclick="selectChat(this, 'Ideias de Marketing')">
+                        <i class="fa-regular fa-message"></i>
+                        <div class="chat-info sidebar-text">
+                            <p class="chat-title">Ideias de Marketing</p>
+                            <p class="chat-preview">Estratégias de aquisição...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <h2>Perguntas Frequentes:</h2>
+            <div class="sidebar-footer">
+                <button class="footer-item" onclick="navigateTo('page-profile')">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="sidebar-text">Perfil</span>
+                </button>
+                <button class="footer-item" onclick="navigateTo('page-settings')">
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="sidebar-text">Configurações</span>
+                </button>
+                <button class="footer-item" id="theme-toggle">
+                    <i class="fa-solid fa-moon"></i>
+                    <span class="sidebar-text">Modo Escuro</span>
+                </button>
+                <div class="user-profile">
+                    <div class="user-avatar"></div>
+                    <div class="user-info sidebar-text">
+                        <p class="user-name">Ruan</p>
+                        <p class="user-plan">Plano Pro</p>
+                    </div>
+                    <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+                </div>
+            </div>
 
-    </section>
+            <button class="collapse-btn" id="collapse-sidebar">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+        </aside>
 
-    </main>
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            
+            <!-- HOME PAGE -->
+            <section id="page-home" class="page active">
+                <div class="home-container">
+                    <div class="home-logo-area">
+                        <div class="ai-main-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <h1>Como posso ajudar você hoje?</h1>
+                        <p>Sua IA assistente para produtividade e criatividade.</p>
+                    </div>
+                    
+                    <div class="home-input-wrapper">
+                        <div class="input-box">
+                            <input type="text" id="home-input" placeholder="Envie uma mensagem...">
+                            <button onclick="sendHomeMessage()" class="btn-send"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
 
-    <footer class="rodape">
-        <p>Desenvolvido por: </footer>
+                    <div class="home-suggestions">
+                        <div class="suggestion-card" onclick="suggestPrompt('Explique computação quântica')">
+                            <strong>Explique um assunto</strong>
+                            <span>Ex: Como funciona a computação quântica?</span>
+                        </div>
+                        <div class="suggestion-card" onclick="suggestPrompt('Crie uma função de validação de CPF em JS')">
+                            <strong>Ajude-me a programar</strong>
+                            <span>Ex: Validação de CPF em JavaScript</span>
+                        </div>
+                        <div class="suggestion-card" onclick="suggestPrompt('Ideias de nomes para marca de café')">
+                            <strong>Crie uma ideia</strong>
+                            <span>Ex: Nomes para uma marca de café</span>
+                        </div>
+                        <div class="suggestion-card" onclick="suggestPrompt('Resuma este texto em 3 pontos')">
+                            <strong>Analise um texto</strong>
+                            <span>Ex: Resuma este artigo em 3 pontos chave</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
+            <!-- CHAT PAGE -->
+            <section id="page-chat" class="page">
+                <header class="chat-header">
+                    <div class="chat-header-left">
+                        <div class="ai-small-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <div>
+                            <h2 id="chat-title-display">SnDQuestion</h2>
+                            <span class="status-online"><i class="fa-solid fa-circle"></i> Online</span>
+                        </div>
+                    </div>
+                    <div class="chat-header-right">
+                        <button class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button class="icon-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
+                </header>
+
+                <div class="messages-container" id="messages-container">
+                    <!-- Mensagens aparecem aqui -->
+                    <div class="msg-ai">
+                        <div class="avatar-ai"><i class="fa-solid fa-microchip"></i></div>
+                        <div class="msg-content">
+                            <p>Olá! Eu sou a Nexus AI. Como posso ajudar você agora?</p>
+                            <span class="msg-time">10:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="input-container">
+                        <button class="action-btn"><i class="fa-solid fa-paperclip"></i></button>
+                        <textarea id="chat-input" rows="1" placeholder="Digite sua mensagem..."></textarea>
+                        <div class="input-right">
+                            <button class="action-btn"><i class="fa-solid fa-microphone"></i></button>
+                            <button class="btn-send" id="btn-send-chat"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                    <p class="ai-disclaimer">A IA pode cometer erros. Verifique informações importantes.</p>
+                </div>
+            </section>
+
+            <!-- SETTINGS PAGE -->
+            <section id="page-settings" class="page">
+                <div class="settings-layout">
+                    <div class="settings-sidebar">
+                        <h3>Configurações</h3>
+                        <button class="settings-nav-item active" onclick="showSettingsTab('tab-general')"><i class="fa-solid fa-layer-group"></i> Geral</button>
+                        <button class="settings-nav-item" onclick="showSettingsTab('tab-chat')"><i class="fa-solid fa-message"></i> Conversas</button>
+                        <button class="settings-nav-item" onclick="showSettingsTab('tab-ai')"><i class="fa-solid fa-cpu"></i> IA</button>
+                        <button class="settings-nav-item" onclick="showSettingsTab('tab-privacy')"><i class="fa-solid fa-shield-halved"></i> Privacidade</button>
+                        <button class="settings-nav-item" onclick="showSettingsTab('tab-account')"><i class="fa-solid fa-user"></i> Conta</button>
+                    </div>
+                    <div class="settings-content">
+                        <div id="tab-general" class="settings-tab active">
+                            <h2>Geral</h2>
+                            <div class="settings-group">
+                                <div class="setting-item">
+                                    <label>Tema</label>
+                                    <select><option>Modo Escuro</option><option>Modo Claro</option></select>
+                                </div>
+                                <div class="setting-item">
+                                    <label>Idioma</label>
+                                    <select><option>Português (BR)</option><option>English (US)</option></select>
+                                </div>
+                                <div class="setting-item-toggle">
+                                    <div class="toggle-text">
+                                        <strong>Início Rápido</strong>
+                                        <span>Sempre iniciar nova conversa ao abrir o app.</span>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-chat" class="settings-tab">
+                            <h2>Conversas</h2>
+                            <p>Preferências de histórico e arquivamento.</p>
+                        </div>
+                        <div id="tab-ai" class="settings-tab">
+                            <h2>IA</h2>
+                            <p>Configurações de modelo e personalidade da IA.</p>
+                        </div>
+                        <div id="tab-privacy" class="settings-tab">
+                            <h2>Privacidade</h2>
+                            <p>Controle de dados e segurança da conta.</p>
+                        </div>
+                        <div id="tab-account" class="settings-tab">
+                            <h2>Conta</h2>
+                            <p>Informações de faturamento e plano.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROFILE PAGE -->
+            <section id="page-profile" class="page">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large"></div>
+                        <h2>Ruan</h2>
+                        <p>ruan@email.com</p>
+                        <span class="badge-pro">PLANO PRO</span>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item"><strong>128</strong><span>Conversas</span></div>
+                        <div class="stat-item"><strong>2.4k</strong><span>Mensagens</span></div>
+                        <div class="stat-item"><strong>42</strong><span>Dias de uso</span></div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn-secondary">Editar Perfil</button>
+                        <button class="btn-primary">Alterar Plano</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEARCH PAGE -->
+            <section id="page-search" class="page">
+                <div class="search-container">
+                    <div class="search-header">
+                        <h2>Pesquisar conversas</h2>
+                        <div class="search-input-main">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Digite termos para buscar no histórico...">
+                        </div>
+                    </div>
+                    <div class="search-results">
+                        <p class="results-label">Resultados encontrados</p>
+                        <div class="search-result-item">
+                            <div class="result-title">Planejamento de Viagem <span>Hoje</span></div>
+                            <p class="result-snippet">...encontrei a solução para o problema de <mark>viagem</mark> no Japão...</p>
+                        </div>
+                        <div class="search-result-item">
+                            <div class="result-title">Refatoração React <span>Ontem</span></div>
+                            <p class="result-snippet">...analisando o código de <mark>React</mark> para melhorar a performance...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-
 </html>
